@@ -17,8 +17,8 @@ export const HUD = React.createClass({
   getInitialState() {
     return {
       debug: false,
-      mock: true,
-      mockSpeed: 142,
+      mock: false,
+      mockSpeed: 42,
       screen: 'hud',
       theme: 0,
       angle: 0,
@@ -40,26 +40,10 @@ export const HUD = React.createClass({
       if (error) {
         this.setState({ error });
       } else {
-        const duration = Date.now() - this.state.timestamp;
-        const diff = Math.abs(this.state.speed - speed);
-        if (diff > 40 && duration <= 3000) { // if 40km diff in less than 3 sec
-          this.setState({
-            error: {
-              code: 'GPS_ERROR',
-              message: 'Precision error',
-            },
-            actualSpeed: speed,
-          });
+        if (speed > 999) {
+          this.setState({ speed: 999.0, actualSpeed: speed, error, timestamp, coords });
         } else {
-          if (speed > 999) {
-            this.setState({ speed: 999.0, actualSpeed: speed, error, timestamp, coords });
-          } else if (speed < 0) {
-            this.setState({ speed: 0.0, actualSpeed: speed, error, timestamp, coords });
-          } else if (speed > 0 && speed < 12) {
-            this.setState({ speed: 0.0, actualSpeed: speed, error, timestamp, coords });
-          } else {
-            this.setState({ speed, actualSpeed: speed, error, timestamp, coords });
-          }
+          this.setState({ speed, actualSpeed: speed, error, timestamp, coords });
         }
       }
     });
@@ -70,7 +54,6 @@ export const HUD = React.createClass({
     stopTracking();
   },
   flip() {
-    console.log('flip');
     this.setState({ flip: !this.state.flip });
   },
   render() {
@@ -80,9 +63,9 @@ export const HUD = React.createClass({
     const textColorWithWarning = this.state.speed > 133.0 ? 'red' : themes[index].color;
     return (
       <TouchableWithoutFeedback onPress={this.flip}>
-        <View style={{ backgroundColor: 'black', flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', transform: [{ scaleX: this.state.flip ? -1 : 1 }, { scaleY: 1 }] }}>
-          <Text style={{ color: textColorWithWarning, fontSize: 180, writingDirection: 'rtl' }}>{this.state.mock ? this.state.mockSpeed : this.state.speed.toFixed(0)}</Text>
-          <Text style={{ color: textColor, fontSize: 80 }}>km/h</Text>
+        <View style={{ paddingLeft: 20, paddingRight: 20, backgroundColor: 'black', flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', transform: [{ scaleX: this.state.flip ? -1 : 1 }, { scaleY: 1 }, { rotateX: `${this.state.angle}deg` }] }}>
+          <Text style={{ letterSpacing: 0, color: textColorWithWarning, fontWeight: 'bold', fontSize: 180, writingDirection: 'rtl' }}>{this.state.mock ? this.state.mockSpeed : this.state.speed.toFixed(0)}</Text>
+          <Text style={{ color: textColor, fontSize: 80, marginLeft: 30 }}>km/h</Text>
         </View>
       </TouchableWithoutFeedback>
     );
