@@ -41,6 +41,7 @@
 
    jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 
+  [application setIdleTimerDisabled:YES];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"hudnative"
                                                initialProperties:nil
