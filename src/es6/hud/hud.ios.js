@@ -42,6 +42,8 @@ export const HUD = React.createClass({
       } else {
         if (speed > 999) {
           this.setState({ speed: 999.0, actualSpeed: speed, error, timestamp, coords });
+        } else if (speed < 0) {
+          this.setState({ speed: 0.0, actualSpeed: speed, error, timestamp, coords });
         } else {
           this.setState({ speed, actualSpeed: speed, error, timestamp, coords });
         }
@@ -62,12 +64,15 @@ export const HUD = React.createClass({
     const textColor = themes[index].color;
     const textColorWithWarning = this.state.speed > 133.0 ? 'red' : themes[index].color;
     return (
-      <TouchableWithoutFeedback onPress={this.flip}>
-        <View style={{ paddingLeft: 20, paddingRight: 20, backgroundColor: 'black', flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', transform: [{ scaleX: this.state.flip ? -1 : 1 }, { scaleY: 1 }, { rotateX: `${this.state.angle}deg` }] }}>
-          <Text style={{ letterSpacing: 0, color: textColorWithWarning, fontWeight: 'bold', fontSize: 180, writingDirection: 'rtl' }}>{this.state.mock ? this.state.mockSpeed : this.state.speed.toFixed(0)}</Text>
-          <Text style={{ color: textColor, fontSize: 80, marginLeft: 30 }}>km/h</Text>
-        </View>
-      </TouchableWithoutFeedback>
+      <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: backColor }}>
+        <TouchableWithoutFeedback onPress={this.flip}>
+          <View style={{ paddingLeft: 20, paddingRight: 20, backgroundColor: 'black', flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', transform: [{ scaleX: this.state.flip ? -1 : 1 }, { scaleY: 1 }, { rotateX: `${this.state.angle}deg` }] }}>
+            <Text style={{ letterSpacing: 0, color: textColorWithWarning, fontWeight: 'bold', fontSize: 180, writingDirection: 'rtl' }}>{this.state.mock ? this.state.mockSpeed : this.state.speed.toFixed(0)}</Text>
+            <Text style={{ color: textColor, fontSize: 80, marginLeft: 30 }}>km/h</Text>
+          </View>
+        </TouchableWithoutFeedback>
+        <Text style={{ color: textColor, fontSize: 20 }}>{this.state.error ? this.state.error : this.state.timestamp}</Text>
+      </View>
     );
   },
 });

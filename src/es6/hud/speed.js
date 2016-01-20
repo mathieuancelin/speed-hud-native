@@ -30,7 +30,7 @@ function watchPosition() {
   }, error => {
     listeners.forEach(listener => listener({ error }));
   }, {
-    enableHighAccuracy: false,
+    enableHighAccuracy: true,
     maximumAge: 2000,
     timeout: 5000,
   });
