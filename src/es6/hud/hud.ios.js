@@ -17,7 +17,11 @@ const themes = [
 export const HUD = React.createClass({
   getInitialState() {
     return {
+      moy: 0,
+      moyArr: [],
+      lastMoy: 0,
       mock: false,
+      max: 0,
       mockSpeed: 42,
       screen: 'hud',
       theme: 0,
@@ -88,8 +92,19 @@ export const HUD = React.createClass({
         } else if (speed < 0) {
           this.setState({ speed: 0.0, actualSpeed: speed, error, timestamp, coords });
         } else {
-          this.setState({ speed, actualSpeed: speed, error, timestamp, coords });
+          let max = this.state.max;
+          if (speed > max) {
+            max = speed;
+          }
+          this.setState({ speed, max, actualSpeed: speed, error, timestamp, coords });
         }
+      }
+      const now = Date.now();
+      if (now - this.state.lastMoy > 60000) {
+        const moy = this.state.moyArr.length > 0 ?
+          this.state.moyArr.reduce((a, b) => a + b) / this.state.moyArr.length :
+          0;
+        this.setState({ moyArr: [...this.state.moyArr, speed], lastMoy: Date.now(), moy});
       }
     });
     startTracking();
@@ -110,17 +125,31 @@ export const HUD = React.createClass({
     const textColor = themes[index].color;
     const textColorWithWarning = this.state.speed > 133.0 ? 'red' : themes[index].color;
     const width = Dimensions.get('window').width;
+    const minutes = new Date().getMinutes();
+    const hours = new Date().getHours();
+    const date = (hours < 10 ? `0${hours}` : hours)+ ':' + (minutes < 10 ? `0${minutes}` : minutes);
     return (
-      <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: backColor }}>
-        <View style={{ flex: 1, alignItems: 'stretch', height: 60 }}></View>
-        <View {...this.panResponder.panHandlers} style={{ height: 300, paddingLeft: 20, paddingRight: 20, backgroundColor: backColor, flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', transform: [{ scaleX: this.state.flip ? -1 : 1 }, { scaleY: 1 }, { perspective: 800 }, { rotateX: `${this.state.angle}deg` }] }}>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: backColor }}>
+        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'stretch', alignSelf: 'flex-end', height: 60, marginTop: 5, marginLeft: 5, marginRight: 5, marginBottom: 5 }}>
+          <View style={{ flex: 1, flexDirection: 'row', width: width - 110 }}>
+            <Text style={{ color: textColor, fontSize: 15, paddingTop: 10 }}>max: </Text>
+            <Text style={{ color: textColor, fontSize: 35 }}>{this.state.max.toFixed(0)}</Text>
+            <Text style={{ color: textColor, fontSize: 15, paddingTop: 18 }}> km/h</Text>
+            <View style={{ width: 20 }}></View>
+            <Text style={{ color: textColor, fontSize: 15, paddingTop: 10 }}>moy: </Text>
+            <Text style={{ color: textColor, fontSize: 35 }}>{this.state.moy.toFixed(0)}</Text>
+            <Text style={{ color: textColor, fontSize: 15, paddingTop: 18 }}> km/h</Text>
+          </View>
+          <Text style={{ color: textColor, fontSize: 35 }}>{date}</Text>
+        </View>
+        <View {...this.panResponder.panHandlers} style={{ paddingTop: 25, paddingLeft: 20, paddingRight: 20, backgroundColor: backColor, flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', transform: [{ scaleX: this.state.flip ? -1 : 1 }, { scaleY: 1 }, { perspective: 800 }, { rotateX: `${this.state.angle}deg` }] }}>
           <Text style={{ letterSpacing: 0, color: textColorWithWarning, fontWeight: 'bold', fontSize: 200, writingDirection: 'rtl' }}>{this.state.mock ? this.state.mockSpeed : this.state.speed.toFixed(0)}</Text>
           <Text style={{ color: textColor, fontSize: 80, marginLeft: 30 }}>km/h</Text>
         </View>
-        <View style={{ width, flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', height: 20, marginTop: 40 }}>
+        <View style={{ width, flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 35 }}>
           <TouchableWithoutFeedback onPress={this.mock}>
             <View style={{ paddingLeft: 20, paddingRight: 20 }}>
-              <Image style={{ width: 25, height: 25 }} source={require('../../static/tools.png')} />
+              <Image style={{ width: 40, height: 40 }} source={require('../../static/speedometer.png')} />
             </View>
           </TouchableWithoutFeedback>
           <Text style={{ color: 'red', fontSize: 20, width: width - 40 }}>{this.state.error ? this.state.error.message : ''}</Text>
