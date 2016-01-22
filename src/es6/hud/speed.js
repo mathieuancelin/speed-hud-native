@@ -2,8 +2,34 @@ const listeners = [];
 let lastPosition;
 let lastTime;
 let watchId;
+let watching = false;
 
 function watchPosition() {
+
+  function fetchPos() {
+    if (!watching) return;
+    navigator.geolocation.getCurrentPosition(pos => {
+      const speed = pos.coords.speed ? (pos.coords.speed * 3.6) : 0.0;
+      listeners.forEach(listener => listener({
+        timestamp: pos.timestamp,
+        coords: pos.coords,
+        error: null,
+        speed,
+      }));
+      setTimeout(fetchPos, 2000);
+    }, error => {
+      listeners.forEach(listener => listener({ error }));
+      setTimeout(fetchPos, 2000);
+    }, {
+      enableHighAccuracy: true,
+      maximumAge: 1000,
+      timeout: 1000,
+    });
+  }
+
+  fetchPos();
+
+  /*
   navigator.geolocation.getCurrentPosition(pos => {
     const speed = pos.coords.speed ? (pos.coords.speed * 3.6) : 0.0;
     listeners.forEach(listener => listener({
@@ -33,15 +59,17 @@ function watchPosition() {
     enableHighAccuracy: true,
     maximumAge: 2000,
     timeout: 5000,
-  });
+  });*/
 }
 
 export function startTracking() {
+  watching = true;
   watchPosition();
 }
 
 export function stopTracking() {
-  navigator.geolocation.clearWatch(watchId);
+  watching = false;
+  // navigator.geolocation.clearWatch(watchId);
 }
 
 export function position() {
