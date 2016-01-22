@@ -14,6 +14,13 @@ const themes = [
   { color: 'black', back: 'white' },
 ];
 
+function cleanupArray(arr) {
+  if (arr.length > 600) {
+    return [...arr].splice(0, arr.length - 600);
+  }
+  return arr;
+}
+
 export const HUD = React.createClass({
   getInitialState() {
     return {
@@ -100,11 +107,11 @@ export const HUD = React.createClass({
         }
       }
       const now = Date.now();
-      if (now - this.state.lastMoy > 60000) {
+      if (now - this.state.lastMoy > 10000) {
         const moy = this.state.moyArr.length > 0 ?
           this.state.moyArr.reduce((a, b) => a + b) / this.state.moyArr.length :
           0;
-        this.setState({ moyArr: [...this.state.moyArr, speed], lastMoy: Date.now(), moy});
+        this.setState({ moyArr: cleanupArray([...this.state.moyArr, this.state.speed]), lastMoy: Date.now(), moy: moy < 0 ? 0 : moy });
       }
     });
     startTracking();
@@ -131,16 +138,16 @@ export const HUD = React.createClass({
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: backColor }}>
         <View style={{ flex: 1, flexDirection: 'row', alignItems: 'stretch', alignSelf: 'flex-end', height: 60, marginTop: 5, marginLeft: 5, marginRight: 5, marginBottom: 5, transform: [{ scaleX: this.state.flip ? -1 : 1 }, { scaleY: 1 }] }}>
-          <View style={{ flex: 1, flexDirection: 'row', width: width - 110 }}>
+          <View style={{ flex: 1, flexDirection: 'row', width: width - 150 }}>
             <Text style={{ color: textColor, fontSize: 15, paddingTop: 10 }}>max: </Text>
-            <Text style={{ color: textColor, fontSize: 35 }}>{this.state.max.toFixed(0)}</Text>
+            <Text style={{ color: textColor, fontSize: 50 }}>{this.state.max.toFixed(0)}</Text>
             <Text style={{ color: textColor, fontSize: 15, paddingTop: 18 }}> km/h</Text>
             <View style={{ width: 20 }}></View>
             <Text style={{ color: textColor, fontSize: 15, paddingTop: 10 }}>moy: </Text>
-            <Text style={{ color: textColor, fontSize: 35 }}>{this.state.moy.toFixed(0)}</Text>
+            <Text style={{ color: textColor, fontSize: 50 }}>{this.state.moy.toFixed(0)}</Text>
             <Text style={{ color: textColor, fontSize: 15, paddingTop: 18 }}> km/h</Text>
           </View>
-          <Text style={{ color: textColor, fontSize: 35 }}>{date}</Text>
+          <Text style={{ color: textColor, fontSize: 50 }}>{date}</Text>
         </View>
         <View {...this.panResponder.panHandlers} style={{ paddingTop: 25, paddingLeft: 20, paddingRight: 20, backgroundColor: backColor, flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', transform: [{ scaleX: this.state.flip ? -1 : 1 }, { scaleY: 1 }, { perspective: 800 }, { rotateX: `${this.state.angle}deg` }] }}>
           <Text style={{ letterSpacing: 0, color: textColorWithWarning, fontWeight: 'bold', fontSize: 200, writingDirection: 'rtl' }}>{this.state.mock ? this.state.mockSpeed : this.state.speed.toFixed(0)}</Text>
