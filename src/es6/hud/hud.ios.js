@@ -71,7 +71,7 @@ export const HUD = React.createClass({
             <Text style={{ color: textColor, fontSize: 80, marginLeft: 30 }}>km/h</Text>
           </View>
         </TouchableWithoutFeedback>
-        <Text style={{ color: textColor, fontSize: 20 }}>{this.state.error ? this.state.error : this.state.timestamp}</Text>
+        <Text style={{ color: 'red', fontSize: 20 }}>{this.state.error ? this.state.error : ''}</Text>
       </View>
     );
   },
