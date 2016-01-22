@@ -130,7 +130,7 @@ export const HUD = React.createClass({
     const date = (hours < 10 ? `0${hours}` : hours)+ ':' + (minutes < 10 ? `0${minutes}` : minutes);
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: backColor }}>
-        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'stretch', alignSelf: 'flex-end', height: 60, marginTop: 5, marginLeft: 5, marginRight: 5, marginBottom: 5 }}>
+        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'stretch', alignSelf: 'flex-end', height: 60, marginTop: 5, marginLeft: 5, marginRight: 5, marginBottom: 5, transform: [{ scaleX: this.state.flip ? -1 : 1 }, { scaleY: 1 }] }}>
           <View style={{ flex: 1, flexDirection: 'row', width: width - 110 }}>
             <Text style={{ color: textColor, fontSize: 15, paddingTop: 10 }}>max: </Text>
             <Text style={{ color: textColor, fontSize: 35 }}>{this.state.max.toFixed(0)}</Text>
