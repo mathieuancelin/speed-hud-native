@@ -26,40 +26,7 @@ function watchPosition() {
       timeout: 1000,
     });
   }
-
   fetchPos();
-
-  /*
-  navigator.geolocation.getCurrentPosition(pos => {
-    const speed = pos.coords.speed ? (pos.coords.speed * 3.6) : 0.0;
-    listeners.forEach(listener => listener({
-      timestamp: pos.timestamp,
-      coords: pos.coords,
-      error: null,
-      speed,
-    }));
-  }, error => {
-    listeners.forEach(listener => listener({ error }));
-  }, {
-    enableHighAccuracy: true,
-    maximumAge: 1000,
-    timeout: 5000,
-  });
-  watchId = navigator.geolocation.watchPosition(pos => {
-    const speed = pos.coords.speed ? (pos.coords.speed * 3.6) : 0.0;
-    listeners.forEach(listener => listener({
-      timestamp: pos.timestamp,
-      coords: pos.coords,
-      error: null,
-      speed,
-    }));
-  }, error => {
-    listeners.forEach(listener => listener({ error }));
-  }, {
-    enableHighAccuracy: true,
-    maximumAge: 2000,
-    timeout: 5000,
-  });*/
 }
 
 export function startTracking() {
