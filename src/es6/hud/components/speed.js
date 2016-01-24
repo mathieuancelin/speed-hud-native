@@ -12,7 +12,6 @@ export const Speed = React.createClass({
     speedFactor: React.PropTypes.number.isRequired,
     speed: React.PropTypes.number.isRequired,
     panResponder: React.PropTypes.string.isRequired,
-    backColor: React.PropTypes.string.isRequired,
     textColorWithWarning: React.PropTypes.string.isRequired,
     textColor: React.PropTypes.string.isRequired,
     panResponder: React.PropTypes.object.isRequired,
@@ -27,7 +26,6 @@ export const Speed = React.createClass({
           paddingTop: 50,
           paddingLeft: 20,
           paddingRight: 20,
-          backgroundColor: this.propsbackColor,
           flex: 1,
           flexDirection: 'row',
           justifyContent: 'space-between',
@@ -49,7 +47,7 @@ export const Speed = React.createClass({
           writingDirection: 'rtl' }}>
           {this.props.mock ? this.props.mockSpeed : this.cleanupSpeed(this.props.speed).toFixed(0)}
         </Text>
-        <Text style={{ color: this.props.textColor, fontSize: 80, marginLeft: 30 }}>
+        <Text style={{ color: this.props.textColor, opacity: 0.9, fontSize: 80, marginLeft: 30 }}>
           {this.props.mode}
         </Text>
       </View>

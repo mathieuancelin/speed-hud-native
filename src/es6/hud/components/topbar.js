@@ -92,18 +92,18 @@ export const NewTopbar = React.createClass({
             scaleY: 1
           }] }}>
         <View style={{ flex: 1, flexDirection: 'row', width: width - 150 }}>
-          <Text style={{ color: this.props.textColor, fontSize: 30, paddingTop: 7 }}>max</Text>
-          <Text style={{ color: this.props.textColor, fontSize: 30, paddingTop: 12 }}>/</Text>
-          <Text style={{ color: this.props.textColor, fontSize: 30, paddingTop: 17 }}>moy </Text>
+          <Text style={{ color: this.props.textColor, fontSize: 30, paddingTop: 7, opacity: 0.9 }}>max</Text>
+          <Text style={{ color: this.props.textColor, fontSize: 30, paddingTop: 12, opacity: 0.9 }}>/</Text>
+          <Text style={{ color: this.props.textColor, fontSize: 30, paddingTop: 17, opacity: 0.9 }}>moy </Text>
           <View style={{ width: 20 }}></View>
           <Text style={{ color: this.props.textColor, fontSize: 50, paddingTop: 0 }}>
             {this.props.mock ? this.props.mockSpeed : this.cleanupSpeed(this.props.max).toFixed(0)}
           </Text>
-          <Text style={{ color: this.props.textColor, fontSize: 30, paddingTop: 14 }}> / </Text>
+          <Text style={{ color: this.props.textColor, fontSize: 30, paddingTop: 14, opacity: 0.9 }}> / </Text>
           <Text style={{ color: this.props.textColor, fontSize: 50, paddingTop: 7 }}>
             {this.props.mock ? this.props.mockSpeed : this.cleanupSpeed(this.props.moy).toFixed(0)}
           </Text>
-          <Text style={{ color: this.props.textColor, fontSize: 17, paddingTop: 22 }}> {this.props.mode}</Text>
+          <Text style={{ color: this.props.textColor, fontSize: 17, paddingTop: 22, opacity: 0.9 }}> {this.props.mode}</Text>
         </View>
         <Text style={{ color: this.props.textColor, fontSize: 50 }}>{date}</Text>
       </View>

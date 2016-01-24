@@ -151,7 +151,6 @@ export const HUD = React.createClass({
         <NewTopbar {...this.state} textColor={textColor} />
         <Speed {...this.state}
           panResponder={this.panResponder}
-          backColor={backColor}
           textColor={textColor}
           textColorWithWarning={textColorWithWarning} />
         <Toolbar
