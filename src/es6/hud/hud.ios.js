@@ -1,7 +1,7 @@
 import React from 'react-native';
 import { startTracking, stopTracking, subscribe } from './speedwatcher';
 import { Toolbar } from './components/toolbar';
-import { Topbar } from './components/topbar';
+import { Topbar, NewTopbar } from './components/topbar';
 import { Speed } from './components/speed';
 
 const { Dimensions, Image, PanResponder, StyleSheet, Text, View, TouchableWithoutFeedback } = React;
@@ -148,7 +148,7 @@ export const HUD = React.createClass({
     const textColorWithWarning = this.cleanupSpeed(this.state.speed) > this.cleanupSpeed(133.0) ? 'red' : themes[index].color;
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: backColor }}>
-        <Topbar {...this.state} textColor={textColor} />
+        <NewTopbar {...this.state} textColor={textColor} />
         <Speed {...this.state}
           panResponder={this.panResponder}
           backColor={backColor}
