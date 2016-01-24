@@ -1,5 +1,8 @@
 import React from 'react-native';
-import { startTracking, stopTracking, subscribe } from './speed';
+import { startTracking, stopTracking, subscribe } from './speedwatcher';
+import { Toolbar } from './components/toolbar';
+import { Topbar } from './components/topbar';
+import { Speed } from './components/speed';
 
 const { Dimensions, Image, PanResponder, StyleSheet, Text, View, TouchableWithoutFeedback } = React;
 
@@ -55,9 +58,9 @@ export const HUD = React.createClass({
     if (this.state.gesture === 'started') {
       if (Math.abs(gestureState.vx) < 1 && Math.abs(gestureState.dy) > 10) {
         if (gestureState.dy > 0 && this.state.angle > -45) {
-          this.setState({ angle: this.state.angle - 1.4 });
+          this.setState({ angle: this.state.angle - 1 });
         } else if (gestureState.dy < 0 && this.state.angle < 45) {
-          this.setState({ angle: this.state.angle + 1.4 });
+          this.setState({ angle: this.state.angle + 1 });
         }
       }
       if (Math.abs(gestureState.vx) > 3.5) {
@@ -128,14 +131,14 @@ export const HUD = React.createClass({
   flip() {
     this.setState({ flip: !this.state.flip });
   },
-  flipMode() {
+  toggleMode() {
     if (this.state.mode === 'km/h') {
-      this.setState({ mode: 'm/h', speedFactor: 0.621371 });
+      this.setState({ mode: 'mph', speedFactor: 0.621371 });
     } else {
       this.setState({ mode: 'km/h', speedFactor: 1.0 });
     }
   },
-  mock() {
+  toggleMock() {
     this.setState({ mock: !this.state.mock });
   },
   render() {
@@ -143,41 +146,19 @@ export const HUD = React.createClass({
     const backColor = themes[index].back;
     const textColor = themes[index].color;
     const textColorWithWarning = this.cleanupSpeed(this.state.speed) > this.cleanupSpeed(133.0) ? 'red' : themes[index].color;
-    const width = Dimensions.get('window').width;
-    const minutes = new Date().getMinutes();
-    const hours = new Date().getHours();
-    const date = (hours < 10 ? `0${hours}` : hours)+ ':' + (minutes < 10 ? `0${minutes}` : minutes);
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: backColor }}>
-        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'stretch', alignSelf: 'flex-end', height: 60, marginTop: 5, marginLeft: 5, marginRight: 5, marginBottom: 5, transform: [{ scaleX: this.state.flip ? -1 : 1 }, { scaleY: 1 }] }}>
-          <View style={{ flex: 1, flexDirection: 'row', width: width - 150 }}>
-            <Text style={{ color: textColor, fontSize: 30, paddingTop: 10 }}>max: </Text>
-            <Text style={{ color: textColor, fontSize: 50 }}>{this.cleanupSpeed(this.state.max).toFixed(0)}</Text>
-            <Text style={{ color: textColor, fontSize: 17, paddingTop: 18 }}> km/h</Text>
-            <View style={{ width: 10 }}></View>
-            <Text style={{ color: textColor, fontSize: 30, paddingTop: 10 }}>moy: </Text>
-            <Text style={{ color: textColor, fontSize: 50 }}>{this.cleanupSpeed(this.state.moy).toFixed(0)}</Text>
-            <Text style={{ color: textColor, fontSize: 17, paddingTop: 18 }}> km/h</Text>
-          </View>
-          <Text style={{ color: textColor, fontSize: 50 }}>{date}</Text>
-        </View>
-        <View {...this.panResponder.panHandlers} style={{ paddingTop: 50, paddingLeft: 20, paddingRight: 20, backgroundColor: backColor, flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', transform: [{ scaleX: this.state.flip ? -1 : 1 }, { scaleY: 1 }, { perspective: 800 }, { rotateX: `${this.state.angle}deg` }] }}>
-          <Text style={{ letterSpacing: 0, color: textColorWithWarning, fontWeight: 'bold', fontSize: 200, writingDirection: 'rtl' }}>{this.state.mock ? this.state.mockSpeed : this.cleanupSpeed(this.state.speed).toFixed(0)}</Text>
-          <Text style={{ color: textColor, fontSize: 80, marginLeft: 30 }}>km/h</Text>
-        </View>
-        <View style={{ width, flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 35 }}>
-          <TouchableWithoutFeedback onPress={this.mock}>
-            <View style={{ paddingLeft: 20, paddingRight: 20 }}>
-              <Image style={{ width: 40, height: 40 }} source={require('../../static/speedometer.png')} />
-            </View>
-          </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback onPress={this.flipMode}>
-            <View style={{ paddingLeft: 20, paddingRight: 20 }}>
-              <Text style={{ height: 40, fontSize: 30, color: 'rgb(68, 68, 68)' }}>{this.state.mode}</Text>
-            </View>
-          </TouchableWithoutFeedback>
-          <Text style={{ color: 'red', fontSize: 20, width: width - 40 }}>{this.state.error ? this.state.error.message : ''}</Text>
-        </View>
+        <Topbar {...this.state} textColor={textColor} />
+        <Speed {...this.state}
+          panResponder={this.panResponder}
+          backColor={backColor}
+          textColor={textColor}
+          textColorWithWarning={textColorWithWarning} />
+        <Toolbar
+          mode={this.state.mode}
+          error={this.state.error}
+          toggleMode={this.toggleMode}
+          toggleMock={this.toggleMock} />
       </View>
     );
   },
