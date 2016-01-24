@@ -9,10 +9,13 @@ const { Dimensions, Image, PanResponder, StyleSheet, Text, View, TouchableWithou
 const themes = [
   { color: 'white', back: 'black' },
   { color: 'Aqua', back: 'black' },
+  { color: '#00DEFF', back: 'black' },
   { color: 'yellow', back: 'black' },
   { color: 'LawnGreen', back: 'black' },
-  { color: 'SpringGreen', back: 'black' },
+  { color: '#3DFF33', back: 'black' },
   { color: 'DeepPink', back: 'black' },
+  { color: '#F433FF', back: 'black' },
+  { color: 'orange', back: 'black' },
   { color: 'black', back: 'white' },
   { color: 'black', back: 'white' },
 ];
