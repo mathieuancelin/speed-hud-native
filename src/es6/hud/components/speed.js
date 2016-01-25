@@ -26,6 +26,7 @@ export const Speed = React.createClass({
           paddingTop: 50,
           paddingLeft: 20,
           paddingRight: 20,
+          backgroundColor: 0,
           flex: 1,
           flexDirection: 'row',
           justifyContent: 'space-between',

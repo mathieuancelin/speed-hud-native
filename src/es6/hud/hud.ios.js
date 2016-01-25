@@ -4,7 +4,7 @@ import { Toolbar } from './components/toolbar';
 import { Topbar, NewTopbar } from './components/topbar';
 import { Speed } from './components/speed';
 
-const { Dimensions, Image, PanResponder, StyleSheet, Text, View, TouchableWithoutFeedback } = React;
+const { PanResponder, View } = React;
 
 const themes = [
   { color: 'white', back: 'black' },
@@ -137,6 +137,8 @@ export const HUD = React.createClass({
   toggleMode() {
     if (this.state.mode === 'km/h') {
       this.setState({ mode: 'mph', speedFactor: 0.621371 });
+    } else if (this.state.mode === 'mph') {
+      this.setState({ mode: 'knots', speedFactor: 0.539957 });
     } else {
       this.setState({ mode: 'km/h', speedFactor: 1.0 });
     }
