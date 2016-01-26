@@ -11,7 +11,6 @@ export const Speed = React.createClass({
     mockSpeed: React.PropTypes.number.isRequired,
     speedFactor: React.PropTypes.number.isRequired,
     speed: React.PropTypes.number.isRequired,
-    panResponder: React.PropTypes.string.isRequired,
     textColorWithWarning: React.PropTypes.string.isRequired,
     textColor: React.PropTypes.string.isRequired,
     panResponder: React.PropTypes.object.isRequired,
@@ -23,7 +22,8 @@ export const Speed = React.createClass({
     const width = Dimensions.get('window').width;
     return (
       <View {...this.props.panResponder.panHandlers} style={{
-          paddingTop: 50,
+          minHeight: 160,
+          paddingTop: 0,
           paddingLeft: 20,
           paddingRight: 20,
           backgroundColor: 0,
@@ -42,13 +42,14 @@ export const Speed = React.createClass({
           }] }}>
         <Text style={{
           letterSpacing: 0,
+          backgroundColor: 0,
           color: this.props.textColorWithWarning,
           fontWeight: 'bold',
           fontSize: 200,
           writingDirection: 'rtl' }}>
           {this.props.mock ? this.props.mockSpeed : this.cleanupSpeed(this.props.speed).toFixed(0)}
         </Text>
-        <Text style={{ color: this.props.textColor, opacity: 0.9, fontSize: 80, marginLeft: 30 }}>
+        <Text style={{ color: this.props.textColor, backgroundColor: 0, opacity: 0.9, fontSize: 80, marginLeft: 30 }}>
           {this.props.mode}
         </Text>
       </View>

@@ -20,16 +20,16 @@ export const Toolbar = React.createClass({
     return (
       <View style={{ width, backgroundColor: 0, flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 35 }}>
         <TouchableWithoutFeedback onPress={this.props.toggleMock}>
-          <View style={{ paddingLeft: 20, paddingRight: 20 }}>
+          <View style={{ paddingLeft: 20, paddingRight: 20, backgroundColor: 0 }}>
             <Image style={{ width: 40, height: 40 }} source={{ uri: icon }} />
           </View>
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback onPress={this.props.toggleMode}>
-          <View style={{ paddingLeft: 20, paddingRight: 20 }}>
-            <Text style={{ height: 40, fontSize: 30, color: 'rgb(68, 68, 68)' }}>{this.props.mode}</Text>
+          <View style={{ paddingLeft: 20, paddingRight: 20, backgroundColor: 0 }}>
+            <Text style={{ height: 40, fontSize: 30, backgroundColor: 0, color: 'rgb(68, 68, 68)' }}>{this.props.mode}</Text>
           </View>
         </TouchableWithoutFeedback>
-        <Text style={{ color: 'red', fontSize: 20, width: this.props.width - 40 }}>{this.props.error ? this.props.error.message : ''}</Text>
+        <Text style={{ color: 'red', backgroundColor: 0, fontSize: 20, width: this.props.width - 40 }}>{this.props.error ? this.props.error.message : ''}</Text>
       </View>
     );
   }

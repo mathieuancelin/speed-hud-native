@@ -86,7 +86,7 @@ export const HUD = React.createClass({
     return s * this.state.speedFactor;
   },
   componentWillMount() {
-    this.panResponder = PanResponder.create({
+    this._panResponder = PanResponder.create({
       onStartShouldSetPanResponder: (evt, gestureState) => true,
       onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
       onMoveShouldSetPanResponder: (evt, gestureState) => true,
@@ -155,7 +155,7 @@ export const HUD = React.createClass({
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: backColor }}>
         <NewTopbar {...this.state} textColor={textColor} />
         <Speed {...this.state}
-          panResponder={this.panResponder}
+          panResponder={this._panResponder}
           textColor={textColor}
           textColorWithWarning={textColorWithWarning} />
         <Toolbar

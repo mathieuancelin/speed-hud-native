@@ -3,8 +3,12 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start-ios": "node node_modules/react-native/local-cli/cli.js start hot --root ./src/es5",
-    "start-android": "node node_modules/react-native/local-cli/cli.js run-android hot"
+    "start": "node node_modules/react-native/local-cli/cli.js start hot --root ./src/es5",
+    "android-bundle": "node node_modules/react-native/local-cli/cli.js bundle --entry-file index.android.js --dev false --platform android",
+    "manual-android-bundle": "curl 'http://localhost:8081/index.android.bundle?platform=android&dev=false' -o 'android/app/src/main/assets/index.android.bundle'",
+    "manual-ios-bundle": "curl 'http://localhost:8081/index.android.bundle?platform=ios&dev=false' -o 'ios/main.jsbundle'",
+    "deploy-android": "npm run manual-android-bundle && node node_modules/react-native/local-cli/cli.js run-android",
+    "start-android": "adb shell am start -n com.hudnative/.MainActivity"
   },
   "dependencies": {
     "react-native": "^0.18.1"

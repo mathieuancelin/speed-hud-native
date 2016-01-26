@@ -3,6 +3,7 @@ package com.hudnative;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.WindowManager;
 
 import com.facebook.react.LifecycleState;
 import com.facebook.react.ReactInstanceManager;
@@ -31,6 +32,8 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
                 .build();
 
         mReactRootView.startReactApplication(mReactInstanceManager, "hudnative", null);
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         setContentView(mReactRootView);
     }

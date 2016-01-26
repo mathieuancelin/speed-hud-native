@@ -1,6 +1,6 @@
 import React from 'react-native';
 
-const { Dimensions, Image, PanResponder, StyleSheet, Text, View, TouchableWithoutFeedback } = React;
+const { Dimensions, Image, StyleSheet, Text, View, TouchableWithoutFeedback } = React;
 
 export const Topbar = React.createClass({
   propTypes: {
@@ -27,7 +27,7 @@ export const Topbar = React.createClass({
           flexDirection: 'row',
           alignItems: 'stretch',
           alignSelf: 'flex-end',
-          height: 60,
+          minHeight: 60,
           marginTop: 5,
           marginLeft: 5,
           marginRight: 5,
